@@ -7,13 +7,16 @@ aws configure set aws_access_key_id $accesskey; aws configure set aws_secret_acc
 echo AWS credentials configured Successfully
 
 echo Checking for repo at ECR
-tag=$(grep -w "deployment_tag" ./inputs.yaml | awk -F= '{print $2}')
-repo=556277294023.dkr.ecr.us-east-1.amazonaws.com/actimize-test-efiler
+tag=$(grep -w "Deployment_tag" ./inputs.yaml | awk -F= '{print $2}')
+env=$(grep -w "Environment" ./inputs.yaml | awk -F= '{print $2}')
+app=$(grep -w "Application" ./inputs.yaml | awk -F= '{print $2}')
+cluster=$(grep -w "Cluster" ./inputs.yaml | awk -F= '{print $2}')
+repo=556277294023.dkr.ecr.us-east-1.amazonaws.com/actimize-$env-$app
 sed -i 's@apache:apache@'"$repo:$tag"'@' ./deploy.yaml
 echo $tag :$repo
 
 echo logging in to cluster
-aws eks --region us-east-1 update-kubeconfig --name test-actimize-eksCluster-0da6128
+aws eks --region us-east-1 update-kubeconfig --name $cluster
 
 echo Deployment has been initiated........
 kubectl apply -f deploy.yaml -n actimize
