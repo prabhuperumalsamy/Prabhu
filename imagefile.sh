@@ -12,14 +12,14 @@ env=$(grep -w "Environment" ./inputs.yaml | awk -F= '{print $2}')
 app=$(grep -w "Application" ./inputs.yaml | awk -F= '{print $2}')
 cluster=$(grep -w "Cluster" ./inputs.yaml | awk -F= '{print $2}')
 repo=556277294023.dkr.ecr.us-east-1.amazonaws.com/actimize-$env-$app
-sed -i 's@apache:apache@'"$repo:$tag"'@' ./deploy.yaml
+sed -i 's@apache:apache@'"$repo:$tag"'@' ./$app.yaml
 echo $tag :$repo
 
 echo logging in to cluster
 aws eks --region us-east-1 update-kubeconfig --name $cluster
 
 echo Deployment has been initiated........
-kubectl apply -f deploy.yaml -n actimize
+kubectl apply -f $app.yaml -n actimize
 
 cd ~/.aws
 rm -f /root/.aws/credentials
