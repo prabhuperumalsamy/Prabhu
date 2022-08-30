@@ -1,1 +1,4 @@
-deployment_tag=3108c477b1a69255679b14cb425b3a8a867e7faf
+Deployment_tag=2564e911917955174fa81355b2504b1f372de85e
+Environment=test
+Application=efiler
+Cluster=test-actimize-eksCluster-0da6128
