@@ -7,7 +7,7 @@ aws configure set aws_access_key_id $accesskey; aws configure set aws_secret_acc
 echo AWS credentials configured Successfully
 
 echo Checking for repo at ECR
-tag=3108c477b1a69255679b14cb425b3a8a867e7faf
+tag=grep -w "deployment_tag" ./inputs.yaml | awk -F= '{print $2}'
 repo=556277294023.dkr.ecr.us-east-1.amazonaws.com/actimize-test-efiler
 sed -i 's@apache:apache@'"$repo:$tag"'@' ./deploy.yaml
 echo $tag :$repo
