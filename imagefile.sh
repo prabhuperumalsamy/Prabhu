@@ -7,10 +7,12 @@ aws configure set aws_access_key_id $accesskey; aws configure set aws_secret_acc
 echo AWS credentials configured Successfully
 
 echo Checking for repo at ECR
-repo=556277294023.dkr.ecr.us-east-1.amazonaws.com/actimize-test-efiler
-tag=$(aws ecr describe-images --repository-name actimize-test-efiler --output text --query 'sort_by(imageDetails,& imagePushedAt)[*].imageTags[*]' | tr '\t' '\n' | tail -1)
-echo $tag
+echo "please enter the image tag: $tag"
+echo "Please enter the application name: $appname"
+
+repo=556277294023.dkr.ecr.us-east-1.amazonaws.com/actimize-test-$appname
 sed -i 's@apache:apache@'"$repo:$tag"'@' ./deploy.yaml
+echo $tag :$repo
 
 echo logging in to cluster
 aws eks --region us-east-1 update-kubeconfig --name test-actimize-eksCluster-0da6128
