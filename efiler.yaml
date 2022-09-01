@@ -1,10 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  generation: 2
+  generation: 5
   labels:
     app: efiler
-  name: efiler2
+    app.kubernetes.io/managed-by: pulumi
+  name: efiler
   namespace: actimize
 spec:
   progressDeadlineSeconds: 600
@@ -28,7 +29,7 @@ spec:
       containers:
       - env:
         - name: AWS_ROLE_ARN
-          value: arn:aws:iam::556277294023:role/actimize-test-k8s-pods
+          value: arn:aws:iam::556277294023:role/actimize-live-k8s-pods
         - name: AWS_WEB_IDENTITY_TOKEN_FILE
           value: /run/secrets/eks.amazonaws.com/serviceaccount/token
         image: apache:apache
@@ -36,3 +37,7 @@ spec:
         name: efiler
         resources:
           limits:
+            cpu: "2"
+            memory: 2Gi
+          requests:
+            cpu: "2"
