@@ -16,7 +16,11 @@ app=$(grep -w "application" ./manual_deployment_parameters.yaml | awk -F= '{prin
 cluster=$(grep -w "cluster" ./manual_deployment_parameters.yaml | awk -F= '{print $2}')
 repo=556277294023.dkr.ecr.us-east-1.amazonaws.com/actimize-$env-$app
 sed -i 's@apache:apache@'"$repo:$tag"'@' ./$app.yaml
-echo $tag :$repo
+
+#Command used to find the current image running inside the pod
+oldimage=$(kubectl describe deployment efiler -n actimize | grep Image)
+echo please find the current running $app $oldimage
+echo Please find the latest image going to deploy $tag and image has pulled from $repo
 
 #logging into the cluster
 echo logging in to cluster
@@ -27,7 +31,7 @@ echo Deployment has been initiated........
 kubectl apply -f $app.yaml -n actimize
 
 #command used to check the Pod status post deployment 
-sleep 150
+sleep 100
 kubectl get pods -n actimize  | grep $app 
 
 #command used to delete the stored aws credentials from the custom image
