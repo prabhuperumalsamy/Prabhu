@@ -32,7 +32,7 @@ kubectl apply -f $app.yaml -n actimize
 
 #command used to check the Pod status post deployment 
 sleep 100
-kubectl get pods -n actimize  | grep $app 
+kubectl get pods -n actimize  | grep $app
 
 #command used to delete the stored aws credentials from the custom image
 cd ~/.aws
