@@ -8,12 +8,12 @@ echo Aws credentials retrieved from secret manager.......
 aws configure set aws_access_key_id $accesskey; aws configure set aws_secret_access_key $secretkey; aws configure set default.region "us-east-1"; aws configure set default.format "json"
 echo AWS credentials configured Successfully
 
-#Fecthing user inputs from inputs.yaml file and proceeding for deployment
+#Fecthing user inputs from manual_deployment_parameters.yaml file and proceeding for deployment
 echo Checking for repo at ECR
-tag=$(grep -w "deployment_tag" ./inputs.yaml | awk -F= '{print $2}')
-env=$(grep -w "environment" ./inputs.yaml | awk -F= '{print $2}')
-app=$(grep -w "application" ./inputs.yaml | awk -F= '{print $2}')
-cluster=$(grep -w "cluster" ./inputs.yaml | awk -F= '{print $2}')
+tag=$(grep -w "deployment_tag" ./manual_deployment_parameters.yaml | awk -F= '{print $2}')
+env=$(grep -w "environment" ./manual_deployment_parameters.yaml | awk -F= '{print $2}')
+app=$(grep -w "application" ./manual_deployment_parameters.yaml | awk -F= '{print $2}')
+cluster=$(grep -w "cluster" ./manual_deployment_parameters.yaml | awk -F= '{print $2}')
 repo=556277294023.dkr.ecr.us-east-1.amazonaws.com/actimize-$env-$app
 sed -i 's@apache:apache@'"$repo:$tag"'@' ./$app.yaml
 echo $tag :$repo
