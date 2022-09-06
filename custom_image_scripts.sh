@@ -16,14 +16,15 @@ cluster=$(grep -w "cluster" ./manual_deployment_parameters.yaml | awk -F= '{prin
 repo=556277294023.dkr.ecr.us-east-1.amazonaws.com/actimize-$env-$app
 
 #checking user inputs with ECR Registry
-fi
 ecrtag=$(aws ecr describe-images --repository-name=actimize-$env-$app  --image-ids=imageTag=$tag | jq '.imageDetails[0].imageTags[0]' -r)
+fi
 if [[ $? == 0 ]]; then
     echo $tag not found in ECR
     exit 1
 else    
 sed -i 's@apache:apache@'"$repo:$ecrtag"'@' ./$app.yaml
 echo The given Image tag found in ECR Repository
+fi
 
 #Command used to find the current image running inside the pod
 oldimage=$(kubectl describe deployment efiler -n actimize | grep Image)
@@ -53,4 +54,3 @@ cd ~/.aws
 rm -f /root/.aws/credentials
 echo Listing aws folder to confirm aws credentials has been removed from the custom Image...
 ls /root/.aws
-fi
