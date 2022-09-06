@@ -14,7 +14,11 @@ env=$(grep -w "environment" ./manual_deployment_parameters.yaml | awk -F= '{prin
 app=$(grep -w "application" ./manual_deployment_parameters.yaml | awk -F= '{print $2}')
 cluster=$(grep -w "cluster" ./manual_deployment_parameters.yaml | awk -F= '{print $2}')
 repo=556277294023.dkr.ecr.us-east-1.amazonaws.com/actimize-$env-$app
-sed -i 's@apache:apache@'"$repo:$tag"'@' ./$app.yaml
+
+#checking user inputs with ECR Registry
+ecrtag=$(aws ecr describe-images --repository-name=actimize-$env-$app  --image-ids=imageTag=$tag | jq '.imageDetails[0].imageTags[0]' -r
+sed -i 's@apache:apache@'"$repo:$ecrtag"'@' ./$app.yaml
+echo The given Image tag found in ECR Repository
 
 #Command used to find the current image running inside the pod
 oldimage=$(kubectl describe deployment efiler -n actimize | grep Image)
@@ -23,6 +27,7 @@ echo Current running $app $oldimage
 #Command used to display the image details which we are going to deploy
 echo ---------------------------------------------------------------------------------------
 echo latest image going to deploy $tag and image retrived from $repo
+
 
 #logging into the cluster
 echo logging in to cluster
