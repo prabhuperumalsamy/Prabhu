@@ -7,6 +7,14 @@ secretkey=$(aws secretsmanager get-secret-value --secret-id 'efiler_test' --quer
 aws configure set aws_access_key_id $accesskey; aws configure set aws_secret_access_key $secretkey; aws configure set default.region "us-east-1"; aws configure set default.format "json"
 echo AWS credentials configured inside custom image Successfully
 
+# passing user inputs
+echo -n "Enter a number: "
+read VAR
+if [[ $VAR -gt 10 ]]
+then
+  echo "The variable is greater than 10."
+fi
+
 #Fecthing user inputs from manual_deployment_parameters.yaml file and proceeding for deployment
 echo Checking for user inputs from mamaul_deployment_parameters.yaml file
 tag=$(grep -w "deployment_tag" ./manual_deployment_parameters.yaml | awk -F= '{print $2}')
