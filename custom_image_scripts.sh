@@ -19,7 +19,7 @@ repo=556277294023.dkr.ecr.us-east-1.amazonaws.com/actimize-$env-$app
 fi
 ecrtag=$(aws ecr describe-images --repository-name=actimize-$env-$app  --image-ids=imageTag=$tag | jq '.imageDetails[0].imageTags[0]' -r)
 if [[ $? == 0 ]]; then
-    echo "$1:$2 found"
+    echo $tag not found in ECR
     exit 1
 else    
 sed -i 's@apache:apache@'"$repo:$ecrtag"'@' ./$app.yaml
