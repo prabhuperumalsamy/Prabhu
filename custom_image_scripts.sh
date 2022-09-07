@@ -19,8 +19,7 @@ repo=556277294023.dkr.ecr.us-east-1.amazonaws.com/actimize-$env-$app
 #checking user inputs with ECR Registry
 #!/bin/bash
 ecrtag=$(aws ecr describe-images --repository-name=actimize-$env-$app  --image-ids=imageTag=$tag | jq '.imageDetails[0].imageTags[0]' -r)
-tag1=06808bf293ea09ad72d4ef6b51f827978c24ea66
-if [ "$ecrtag" == "$tag1" ]; then
+if [ "$ecrtag" == "06808bf293ea09ad72d4ef6b51f827978c24ea66" ]; then
 sed -i 's@apache:apache@'"$repo:$ecrtag"'@' ./$app.yaml
 echo The given Image tag found in ECR Repository;
 else
