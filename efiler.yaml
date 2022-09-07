@@ -5,7 +5,7 @@ metadata:
   labels:
     app: efiler
     app.kubernetes.io/managed-by: pulumi
-  name: efiler
+  name: efiler2
   namespace: actimize
 spec:
   progressDeadlineSeconds: 600
