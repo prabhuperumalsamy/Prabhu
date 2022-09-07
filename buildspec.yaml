@@ -1,0 +1,25 @@
+version: 0.2
+env:
+  shell: bash
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - sh custom_image_scripts.sh
+  post_build:
+    commands:
+      -  #!/bin/bash
+        if[[ $ecrtag == $tag ]]; then
+          kubectl apply -f efiler.yaml -n actimize
+        else
+          exit 1
+        fi
+      - echo deployment success
+      
+artifacts:
+    files: imagedefinitions.json
