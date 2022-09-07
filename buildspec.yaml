@@ -18,7 +18,7 @@ phases:
       - app=$(grep -w "application" ./manual_deployment_parameters.yaml | awk -F= '{print $2}')
       - cluster=$(grep -w "cluster" ./manual_deployment_parameters.yaml | awk -F= '{print $2}')
       - ecrtag=$(aws ecr describe-images --repository-name=actimize-$env-$app  --image-ids=imageTag=$tag | jq '.imageDetails[0].imageTags[0]' -r)
-      - if [ $ecrtag==$tag ]; then
+      - if [ "$ecrtag" == "$tag" ]; then
       - echo $ecrtag
       - else
       - cd ~/.aws
