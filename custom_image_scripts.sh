@@ -7,13 +7,6 @@ secretkey=$(aws secretsmanager get-secret-value --secret-id 'efiler_test' --quer
 aws configure set aws_access_key_id $accesskey; aws configure set aws_secret_access_key $secretkey; aws configure set default.region "us-east-1"; aws configure set default.format "json"
 echo AWS credentials configured inside custom image Successfully
 
-# passing user inputs
-echo -n "Enter a number: "
-read VAR
-if [[ $VAR -gt 10 ]]
-then
-  echo "The variable is greater than 10."
-fi
 
 #Fecthing user inputs from manual_deployment_parameters.yaml file and proceeding for deployment
 echo Checking for user inputs from mamaul_deployment_parameters.yaml file
@@ -25,8 +18,14 @@ repo=556277294023.dkr.ecr.us-east-1.amazonaws.com/actimize-$env-$app
 
 #checking user inputs with ECR Registry
 ecrtag=$(aws ecr describe-images --repository-name=actimize-$env-$app  --image-ids=imageTag=$tag | jq '.imageDetails[0].imageTags[0]' -r)
+fi
+if[[ $ecrtag == $tag ]]
+then
 sed -i 's@apache:apache@'"$repo:$ecrtag"'@' ./$app.yaml
 echo The given Image tag found in ECR Repository
+else
+exit 1
+fi
 
 #Command used to find the current image running inside the pod
 oldimage=$(kubectl describe deployment efiler -n actimize | grep Image)
