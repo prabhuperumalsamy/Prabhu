@@ -23,6 +23,11 @@ if [ "$ecrtag" = "06808bf293ea09ad72d4ef6b51f827978c24ea66" ]; then
 sed -i 's@apache:apache@'"$repo:$ecrtag"'@' ./$app.yaml
 echo The given Image tag found in ECR Repository;
 else
+echo Please check the provided inputs are valid
+echo Image tag:$tag
+echo environment:$env
+echo application:$app
+echo cluster:$cluster
 exit 1;
 fi
 
