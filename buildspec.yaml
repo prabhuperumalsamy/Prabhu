@@ -19,13 +19,12 @@ phases:
       - cluster=$(grep -w "cluster" ./manual_deployment_parameters.yaml | awk -F= '{print $2}')
       - ecrtag=$(aws ecr describe-images --repository-name=actimize-$env-$app  --image-ids=imageTag=$tag | jq '.imageDetails[0].imageTags[0]' -r)
       - if [ "$ecrtag" = "$tag" ] ; then
-      echo $ecrtag
-      else
-      cd ~/.aws
-      rm -f /root/.aws/credentials
-      echo Listing aws folder to confirm aws credentials has been removed from the custom Image...
-      ls /root/.aws
-      fi
-      
+      - echo $ecrtag
+      - else
+      - cd ~/.aws
+      - rm -f /root/.aws/credentials
+      - echo Listing aws folder to confirm aws credentials has been removed from the custom Image...
+      - ls /root/.aws
+      - fi 
 artifacts:
     files: imagedefinitions.json
