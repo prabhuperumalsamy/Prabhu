@@ -56,7 +56,7 @@ sleep 60
 kubectl get pods -n actimize  | grep $app
 
 #command used to delete the stored aws credentials from the custom image
-#cd ~/.aws
-#rm -f /root/.aws/credentials
-#echo Listing aws folder to confirm aws credentials has been removed from the custom Image...
-#ls /root/.aws
+cd ~/.aws
+rm -f /root/.aws/credentials
+echo Listing aws folder to confirm aws credentials has been removed from the custom Image...
+ls /root/.aws
