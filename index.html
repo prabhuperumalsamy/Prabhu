@@ -10,15 +10,6 @@
   <label for="lname">environment:</label><br>
   <input type="text" id="lname" name="lname" value="*"><br><br>
   <input type="submit" value="Submit">
-<script type="text/javascript">
-  $(document).ready(function() {
-    var url = 'https://github.com/prabhuperumalsamy/Prabhu/blob/60ec2bf8298fe58fb955e7f076a657fc33b3e678/script.sh';
-
-    $.get(url, function(data) { 
-        $('#deployment_tag').text(data);
-      }, 'text');
-    });
-</script>
 </form> 
 
 <p>If you click the "Submit" button, the form-data will be sent to a page called "/test.php".</p>
