@@ -21,7 +21,7 @@ repo=556277294023.dkr.ecr.us-east-1.amazonaws.com/actimize-$env-$app
 #!/bin/bash
 ecrtag=$(aws ecr describe-images --repository-name=actimize-$env-$app  --image-ids=imageTag=$tag | jq '.imageDetails[0].imageTags[0]' -r)
 if [ "$ecrtag" = "$tag1" ]; then
-sed -i 's@apache:apache@'"$repo:$ecrtag"'@' ./$app.yaml
+sed -i 's@apache:apache@'"$repo:$ecrtag"'@' ./yamlfiles/$app.yaml
 echo The given Image tag found in ECR Repository;
 else
 echo Please check the provided inputs are valid
