@@ -47,7 +47,7 @@ aws eks --region us-east-1 update-kubeconfig --name $cluster
 
 #command to inititate the deployment
 echo Deployment has been initiated........
-kubectl apply -f ./yamlfile/$app.yaml -n actimize
+kubectl apply -f ./yamlfiles/$app.yaml -n actimize
 echo ---------------------------------------------------------------------------------------
 
 #command used to check the Pod status post deployment 
