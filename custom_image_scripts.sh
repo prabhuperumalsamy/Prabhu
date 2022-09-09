@@ -33,7 +33,7 @@ exit 1;
 fi
 
 #Command used to find the current image running inside the pod
-oldimage=$(kubectl describe deployment efiler -n actimize | grep Image)
+oldimage=$(kubectl describe deployment $app -n actimize | grep Image)
 echo Current running $app $oldimage
 
 #Command used to display the image details which we are going to deploy
